@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import ping
+
+from core import views
 
 urlpatterns = [
-    path("ping/", ping),
+     path('predict/', views.predict_view, name='predict'),
 ]

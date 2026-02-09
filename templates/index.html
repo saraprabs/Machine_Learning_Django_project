@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Titanic Survival Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+    <h2>Titanic Survival Prediction</h2>
+    <hr>
+    <form action="/predict/" method="POST" class="col-md-6">
+        {% csrf_token %} <div class="mb-3">
+            <label>Passenger Class (1, 2, or 3):</label>
+            <input type="number" name="pclass" class="form-control" min="1" max="3" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Gender:</label>
+            <select name="sex" class="form-select">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label>Age:</label>
+            <input type="number" name="age" class="form-control" step="0.1" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Siblings/Spouses Aboard (SibSp):</label>
+            <input type="number" name="sibsp" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Parents/Children Aboard (Parch):</label>
+            <input type="number" name="parch" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Fare:</label>
+            <input type="number" name="fare" class="form-control" step="0.01" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Port of Embarkation:</label>
+            <select name="embarked" class="form-select">
+                <option value="S">Southampton</option>
+                <option value="C">Cherbourg</option>
+                <option value="Q">Queenstown</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Predict Survival</button>
+    </form>
+</body>
+</html>
