@@ -12,4 +12,4 @@ dependencies:
   - scikit-learn=1.8
   - scipy
   - django=5.2
-prefix: C:\Users\gkgab\DevTools\miniconda3\envs\titanic_capstone_django-ml
+prefix: C:\Users\Elev\miniconda3\envs\titanic_capstone_django-ml
