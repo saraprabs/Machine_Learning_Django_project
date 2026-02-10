@@ -1,11 +1,13 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.conf import settings
+from django.urls import reverse_lazy
 import joblib
 import numpy as np
 import pandas as pd
 import os
 
+success_url = reverse_lazy('prediction_list')
 model_path = os.path.join(settings.BASE_DIR, 'ML', 'titanic_model_pipeline.pkl')
 # Load your model globaly so it doesn't reload on every click
 model = joblib.load(model_path)
@@ -33,7 +35,7 @@ def predict_view(request):
             pclass = int(request.POST.get('pclass'))
             if pclass not in [1, 2, 3]:
                 raise ValueError("Pclass must be 1, 2, or 3.")
-            sex = 1 if request.POST.get('sex') == 'male' else 0
+            sex = 0 if request.POST.get('sex') == 'male' else 1
             age = float(request.POST.get('age'))
             if age < 0 or age > 110:
                 raise ValueError("Age must be between 0 and 110.")
@@ -55,6 +57,7 @@ def predict_view(request):
                 pclass, sex, age, sibsp, parch, fare, family_size,
                 embarked, age_class
             ]]
+            
             cols = ['Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare', 'FamilySize','Embarked',  'Age_Class']
             features_df = pd.DataFrame(features, columns=cols)
             prediction = model.predict(features_df)
@@ -98,3 +101,6 @@ def predict_view(request):
 #         }
         
 #         return render(request, 'result.html', context)
+
+def home(request):
+    return render(request, 'home.html',{'title':'home'})

@@ -1,7 +1,8 @@
 from django.urls import path
-
-from core import views
+from . import views
 
 urlpatterns = [
-     path('predict/', views.predict_view, name='predict'),
+    path('',views.home, name='home'),
+
+    path('predict/',views.predict_view, name='prediction_form'),
 ]

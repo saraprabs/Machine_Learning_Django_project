@@ -20,7 +20,7 @@ from core import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.predict_view, name='home'),      # Loads the form
-    path('predict/', views.predict_view, name='predict'),
+    path('', views.home, name='home'),      # Loads the form
+    path('predict/', views.predict_view, name='prediction_form'),  # Handles form submission and prediction
     path('', include('core.urls')),
 ]
