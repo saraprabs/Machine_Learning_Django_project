@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "core/base.html" %}
 {% load static %}  
 {% block content %}
 <div class="container py-5">
@@ -9,7 +9,7 @@
             <a href="{% url 'prediction_form' %}" class="btn btn-primary btn-lg px-4">Try Predictor</a>
         </div>
         <div class="col-lg-6">
-            <img src="{% static 'images/titanic-top.jpg' %}" class="img-fluid rounded shadow" alt="Titanic Ship">
+            <img src="{% static 'core/images/titanic-top.jpg' %}" class="img-fluid rounded shadow" alt="Titanic Ship">
         </div>
     </div>
 

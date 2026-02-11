@@ -74,18 +74,18 @@ def predict_view(request):
             #     'input_data': request.POST
             #     }
             result = "Survived" if prediction[0] == 1 else "Did Not Survive"
-            return render(request, 'result.html', {
+            return render(request, 'core/result.html', {
                 'result': result,
                 'probability': prob,
                 'importances': get_importances(model, cols) # Optional helper function
             })
         except (ValueError, TypeError) as e:
-            return render(request, 'index.html', {
+            return render(request, 'core/index.html', {
                 'error': f"Invalid input: {str(e)}",
                 'previous_data': request.POST # Helps user keep their other entries
             })
 
-    return render(request, 'index.html')
+    return render(request, 'core/index.html')
 
 # def predict_survival(request):
 #     if request.method == 'POST':
@@ -103,4 +103,4 @@ def predict_view(request):
 #         return render(request, 'result.html', context)
 
 def home(request):
-    return render(request, 'home.html',{'title':'home'})
+    return render(request, 'core/home.html',{'title':'home'})

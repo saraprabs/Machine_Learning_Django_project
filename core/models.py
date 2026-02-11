@@ -46,7 +46,7 @@ class Passenger(models.Model):
         verbose_name="Gender"
     )
     
-    age = models.FloatField(
+    age = models.IntegerField(
         null=True,
         blank=True,
         verbose_name="Age",
@@ -69,7 +69,7 @@ class Passenger(models.Model):
         max_length=50,
         verbose_name="Ticket Number"
     )
-    
+
     fare = models.DecimalField(
         max_digits=10,
         decimal_places=4,
@@ -79,13 +79,15 @@ class Passenger(models.Model):
         help_text="Passenger fare in pounds"
     )
     
+
     cabin = models.CharField(
         max_length=20,
         blank=True,
         verbose_name="Cabin",
         help_text="Cabin number"
     )
-    
+
+     
     embarked = models.CharField(
         max_length=1,
         choices=[
@@ -273,7 +275,7 @@ class PredictionRecord(models.Model):
         blank=True,
         verbose_name="Survival Prediction"
     )
-    
+
     result = models.CharField(max_length=20)
     
     probability = models.FloatField(
