@@ -1,0 +1,126 @@
+{% extends "webapp/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow p-4">
+
+        <h2 class="text-center mb-4">🚢 Titanic Survival Prediction Result</h2>
+
+        <!-- Passenger Details -->
+        <h4>Passenger Details</h4>
+        <hr>
+        <p><strong>Pclass:</strong> {{ prediction.pclass }}</p>
+        <p><strong>Name:</strong> {{ passenger_name }}</p>
+        <p><strong>Gender:</strong> {{ prediction.sex }}</p>
+        <p><strong>Age:</strong> {{ prediction.age }}</p>
+        <p><strong>Pclass:</strong> {{ prediction.pclass }}</p>
+        <p><strong>Siblings/Spouses:</strong> {{ prediction.sibsp }}</p>
+        <p><strong>Parents/Children:</strong> {{ prediction.parch }}</p>
+        <p><strong>Fare:</strong> {{ prediction.fare }}</p>
+        <p><strong>Embarkation Port:</strong> {{ prediction.embarked }}</p>
+
+        <hr>
+
+        <!-- Prediction Result -->
+        <h4>Prediction Outcome</h4>
+        {% if prediction.survived_prediction %}
+            <h3 class="text-success fw-bold">Likely to Survive</h3>
+            <p>The model predicts that this passenger had a higher chance of survival.</p>
+        {% else %}
+            <h3 class="text-danger fw-bold">Unlikely to Survive</h3>
+            <p>The model predicts that this passenger had a lower chance of survival.</p>
+        {% endif %}
+
+        <!-- Probability Progress Bar -->
+        <p><strong>Survival Probability:</strong> {{ prediction.probability|floatformat:2 }}%</p>
+        <div class="progress mb-4">
+            <div class="progress-bar" role="progressbar"
+                 style="width: {{ prediction.probability|default:0 }}%;"
+                 aria-valuenow="{{ prediction.probability|default:0 }}"
+                 aria-valuemin="0"
+                 aria-valuemax="100">
+                {{ prediction.probability|floatformat:1 }}%
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Rating Section -->
+        <h5>⭐ Rate Your Experience</h5>
+        <form method="post" action="{% url 'submit_rating' prediction.id %}">
+            {% csrf_token %}
+            <div class="star-rating mb-3">
+                <input type="radio" id="5-stars" name="rating" value="5">
+                <label for="5-stars">★</label>
+
+                <input type="radio" id="4-stars" name="rating" value="4">
+                <label for="4-stars">★</label>
+
+                <input type="radio" id="3-stars" name="rating" value="3">
+                <label for="3-stars">★</label>
+
+                <input type="radio" id="2-stars" name="rating" value="2">
+                <label for="2-stars">★</label>
+
+                <input type="radio" id="1-star" name="rating" value="1">
+                <label for="1-star">★</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit Rating</button>
+        </form>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success">
+          {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <hr>
+
+        <!-- Navigation Buttons -->
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'prediction_form' %}" class="btn btn-success">
+                ➕ Add Another Passenger
+            </a>
+            <a href="{% url 'home' %}" class="btn btn-secondary">
+                🏠 Go Home
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<!-- Optional inline styles for stars -->
+<style>
+    .star-rating {
+        direction: rtl;
+        display: inline-flex;
+    }
+
+    .star-rating input {
+        display: none;
+    }
+
+    .star-rating label {
+        font-size: 28px;
+        color: gray;
+        cursor: pointer;
+        padding: 0 2px;
+        transition: color 0.2s;
+    }
+
+    /* hover effect */
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+        color: gold;
+    }
+
+    /* selected stars */
+    .star-rating input:checked ~ label {
+        color: gold;
+    }
+</style>
+{% endblock content %}

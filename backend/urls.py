@@ -16,11 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from core import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),      # Loads the form
-    path('predict/', views.predict_view, name='prediction_form'),  # Handles form submission and prediction
-    path('', include('core.urls')),
+    path('', include('webapp.urls')),
 ]

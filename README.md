@@ -104,6 +104,7 @@ Apply initial migrations:
 
 ```bash
 python manage.py migrate
+python manage.py import_passengers 
 ```
 
 Start the development server:
