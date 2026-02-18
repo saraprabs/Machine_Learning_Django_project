@@ -1,4 +1,19 @@
-# Django + ML Project
+# Titanic++ Survival Prediction System
+
+A Django web application that predicts the survival outcome of Titanic passengers using a machine learning model. Users can input passenger details, get real-time predictions, and view prediction history.
+
+---
+
+## Features
+
+- **Prediction Form**: Enter passenger details (age, sex, class, fare, etc.) to get survival prediction.
+- **Prediction History**: View all past predictions stored in the database.
+- **ML Model Integration**: Pre-trained model (Random Forest) loaded via joblib.
+- **Responsive UI**: Simple and clean interface built with Bootstrap.
+
+---
+
+## Django + ML Project
 
 This repository contains a **simple, beginner‑friendly Django project** with a clear path toward adding **machine‑learning features later**.
 
@@ -6,23 +21,14 @@ The goal of this README is to help **any teammate** clone the repo and get a wor
 
 ---
 
-## 🎯 Project Purpose
-
-- Provide a **clean Django 5.2 (LTS)** starting point
-- Use **Python 3.14** managed via **Miniconda**
-- Keep the setup simple and reproducible
-- Prepare the ground for adding ML (NumPy / scikit‑learn) later
-
-At this stage, the project is **pure Django**. No ML code is required to run it.
-
----
-
 ## 🧰 Tech Stack
 
-- **Python:** 3.14
+- **Python:** 3.11
 - **Django:** 5.2 (LTS)
 - **Environment management:** Conda (Miniconda)
-- **ML libraries (installed but optional):** NumPy, SciPy, scikit‑learn, pandas
+- **Database**: SQLite (development) / PostgreSQL (production)
+- **ML libraries (installed but optional):** NumPy, SciPy, scikit‑learn, pandas, joblib
+- **Deployment**: Gunicorn, Nginx, Docker (optional)
 
 ---
 
@@ -48,19 +54,110 @@ conda --version
 ## 📁 Project Structure
 
 ```text
-project-root/
-├── backend/              # Django project (settings, URLs, ASGI/WSGI)
-├── core/                 # Main Django app
-├── ml/                   # ML code (empty / optional for now)
+
+titanic_capstone/
+├── db.sqlite3
+├── environment.yml      # Conda environment definition
+├── LICENSE
 ├── manage.py
-├── environment.yml       # Conda environment definition
-├── README.md
-└── .gitignore
+├── backend/             # Django project (settings, URLs, ASGI/WSGI)
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   ├── wsgi.py
+│   └── __pycache__/
+├── docs/               # Documentations
+│   ├── API.md
+│   ├── CONTRIBUTING.md
+│   ├── README.md
+│   └── USER_GUIDE.md
+├── ML/                 # ML artifacts and experimentation code and Dataset directory
+│   ├── __init__.py
+│   ├── Advanced_Evaluation.ipynb
+│   ├── EDA.ipynb
+│   ├── featureEngineering.ipynb
+│   ├── titanic_capstone.ipynb
+│   ├── titanic_clean_train.csv
+│   ├── titanic_cleaned_test_data.csv
+│   ├── titanic_cleaned_training_data_FE.csv
+│   ├── titanic_cleaned_training_data.csv
+│   ├── titanic_predictions_output.csv
+│   ├── model_training/
+│   │   ├── __init__.py
+│   │   ├── config.py
+│   │   ├── evaluate.py
+│   │   ├── model_definition.py
+│   │   ├── preprocess.py
+│   │   ├── train.py
+│   │   ├── utils.py
+│   │   ├── __pycache__/
+│   │   └── artifacts/
+│   │       └── metrics.json
+│   └── titanic_data/
+│       ├── gender_submission.csv
+│       ├── test.csv
+│       └── train.csv
+├── notebooks/          # Exploratory workbooks (01_eda_template.ipynb)
+│   └── 01_eda_template.ipynb
+└── webapp/             # Django app (views, models, migrations, tests)
+    ├── __init__.py
+    ├── admin.py
+    ├── apps.py
+    ├── forms.py
+    ├── models.py
+    ├── tests.py
+    ├── urls.py
+    ├── views.py
+    ├── __pycache__/
+    ├── management/
+    │   ├── __init__.py
+    │   ├── __pycache__/
+    │   └── commands/
+    │       ├── __init__.py
+    │       ├── import_passengers.py
+    │       └── __pycache__/
+    ├── migrations/
+    │   ├── __init__.py
+    │   ├── 0001_initial.py
+    │   ├── 0002_alter_passenger_age.py
+    │   ├── 0003_alter_passenger_age_alter_predictionrecord_age.py
+    │   ├── 0004_remove_features_json.py
+    │   ├── 0005_remove_features_json.py
+    │   ├── 0006_alter_predictionrecord_age.py
+    │   ├── 0007_remove_predictionrecord_cabin_and_more.py
+    │   ├── 0008_predictionrecord_v2.py
+    │   ├── 0009_delete_predictionrecord_v2.py
+    │   ├── 0010_predictionrecord_rating.py
+    │   └── __pycache__/
+    ├── static/
+    │   └── webapp/
+    │       └── images/
+    └── templates/
+        └── webapp/
+            ├── base.html
+            ├── home.html
+            ├── prediction_form.html
+            ├── prediction_list.html
+            ├── results.html
+            └── partials/
+                └── prediction.html
+
 ```
 
-> 💡 You only need `backend/`, `core/`, and `manage.py` to run Django.
+> 💡 At a minimum you need `backend/`, `webapp/`, and `manage.py` to run Django.
 
 ---
+
+## Installation Steps
+
+### Clone repository
+
+you need to have same structure as main(copy url from github main):
+
+```bash
+git clone [repository-url]
+```
 
 ## 🐍 Environment Setup
 
@@ -74,14 +171,14 @@ conda env create -f environment.yml
 
 This installs:
 
-- Python 3.14
+- Python 3.11
 - Django 5.2
 - Scientific libraries (for future ML work)
 
 ### 2️⃣ Activate the environment
 
 ```bash
-conda activate titanic_capstone_django-ml
+conda activate titanic_capstone_ml
 ```
 
 ### 3️⃣ Verify
@@ -93,7 +190,7 @@ django-admin --version
 
 Expected:
 
-- Python 3.14.x
+- Python 3.11.x
 - Django 5.2
 
 ---
@@ -104,7 +201,12 @@ Apply initial migrations:
 
 ```bash
 python manage.py migrate
-python manage.py import_passengers 
+```
+
+Load ML model:
+
+```bash
+python -m ml.model_training.train
 ```
 
 Start the development server:
@@ -119,58 +221,99 @@ Open your browser:
 http://127.0.0.1:8000/
 ```
 
-You should see the Django welcome page.
+You should see the project page in the browser's window.
 
 ---
 
-## 🔌 Example Endpoint (Sanity Check)
+## Machine Learning Model
 
-This project includes a minimal endpoint to confirm everything works.
-
-### View (`core/views.py`)
-
-```python
-from django.http import HttpResponse
-
-
-def ping(request):
-    return HttpResponse("pong")
-```
-
-### URL configuration (`core/urls.py`)
-
-```python
-from django.urls import path
-from .views import ping
-
-urlpatterns = [
-    path("ping/", ping),
+- Model type: [e.g., Random Forest Model]
+- Features used: [
+  list key features: 
+  Name, Pclass, Sex, Age, Parch (parent or children), Embarked, Fare, SibSp,
+  ]
+- Accuracy: [85%]
+- Training process: [
+  Load cleaned training dataset,
+  Perform train test split,
+  Train Logistic Regression mode,
+  Sve trained model(titanic_model.pkl),
+  Verify model loads correctly
 ]
-```
 
-### Project URLs (`backend/urls.py`)
+---
 
-```python
-from django.contrib import admin
-from django.urls import path, include
+## API Documentation
 
-urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("", include("core.urls")),
-]
-```
+See API.md for details.
 
-Test it in the browser:
+---
 
-```
-http://127.0.0.1:8000/ping/
-```
+## Architecture Diagram
 
-Expected response:
+The system follows a typical Django MVT (Model-View-Template) architecture with an integrated machine learning component.
 
-```
-pong
-```
+**Components:**
+
+- **Browser**: User interface (HTML forms, Bootstrap).
+- **Django Server**: Handles HTTP requests, serves templates, processes forms.
+- **Views**:
+  - `predict_view`: Receives form data, calls ML predictor, stores result in DB.
+  - `history_view`: Queries database and displays past predictions.
+- **ML Predictor**: Loads the pre-trained model (`model.pkl`) and makes predictions using `joblib` and `scikit-learn`.
+- **Database**: Stores prediction history (SQLite/PostgreSQL).
+- **API Endpoint**: Optional JSON API for external clients.
+
+**Data Flow:**
+
+1. User submits prediction form → POST request to Django.
+2. View extracts data, validates using Django Form.
+3. View passes data to `preprocess.py` which preprocesses and calls model.
+4. Prediction result is returned to view.
+5. View saves result (input + output) to database.
+6. View renders result template with prediction.
+7. History page queries database and displays records.
+
+[User Browser] → [Django Web Server] → [ML Model] → [Database]
+       ↓               ↓                  ↓           ↓
+    HTML Forms     Views/Logic       .pkl file   SQLite/PostgreSQL
+       ↓               ↓                  ↓           ↓
+  [Results Page] [Process Data]   [Make Prediction] [Store Data]
+
+---
+
+## Deployment
+
+See DEPLOY.md for production deployment instructions.
+
+---
+
+## Contributing
+
+See CONTRIBUTING.md for details.
+
+---
+
+## License
+
+[MIT]
+
+---
+
+## Team Members & Responsible Tasks
+
+- [Bharathi]:
+Feature Engineering & EDA with Visualizations
+Advanced Evaluation & Result Page & History Page
+- [Gabriela]:
+GitHub Setup & Documentation & Django Project Setup
+Model Training & Database Persistence & History Page
+- [Saranya]:
+Data Inspection & Analysis & Missing Data Handling
+Testing Framework & Homepage & Model Integration
+- [Siying]:
+Database Model Design & Prediction form
+Documentation & Error Handling & User Experience
 
 ---
 
@@ -194,7 +337,7 @@ The `ml/` folder is reserved for **future machine‑learning code**.
 
 At this stage:
 
-- It may be empty
+- It may be empty or not included
 - It is **not required** to run Django
 
 When ML is added later:
@@ -210,37 +353,16 @@ When ML is added later:
 
 - Make sure the Conda environment is activated
 
-**Long Conda solve times**
-
-- Ensure only `conda-forge` is used
-
 ---
 
 ## 📚 Common Commands
 
 ```bash
-conda activate titanic_capstone_django-ml
+conda activate titanic_capstone_ml
 python manage.py runserver
 python manage.py makemigrations
 python manage.py migrate
 ```
-
----
-
-## 🗺️ Next Steps
-
-Planned improvements:
-
-- Add Django REST Framework
-- Add tests (pytest)
-- Add ML inference endpoints
-- Add Docker support
-
----
-
-## 📝 License
-
-Choose a license before publishing (MIT is common for learning projects).
 
 ---
 
